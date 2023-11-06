@@ -78,17 +78,17 @@ void kernel(Int2 resolution, Float2 view_center, Float2 view_extend, cudaSurface
 		++iteration;
 	}
 
-	float brightness = (float)iteration / 256.0f;
-	brightness = brightness - truncf(brightness);
-	uint32_t converted = min((uint32_t)(std::sqrt(brightness) * 256.0f), 255);
-	uint32_t value = (converted << 16) | (converted << 8) | converted;
+	//	float brightness = (float)iteration / 256.0f;
+	//	brightness = brightness - truncf(brightness);
+	//	uint32_t converted = min((uint32_t)(std::sqrt(brightness) * 256.0f), 255);
+	//	uint32_t value = (converted << 16) | (converted << 8) | converted;
 
-	//	float3 a = make_float3(0.5, 0.5, 0.5);
-	//	float3 b = make_float3(0.5, 0.5, 0.5);
-	//	float3 c = make_float3(4.0, 4.0, 4.0);
-	//	float3 d = make_float3(0.00, 1.0f / 3.0f, 2.0f / 3.0f);
-	//	float3 color = palette((float)iteration / 1024.0f, a, b, c, d);
-	//	uint32_t value = (convert_channel(color.x) << 16) | (convert_channel(color.y) << 8) | convert_channel(color.z);
+	float3 a = make_float3(0.5, 0.5, 0.5);
+	float3 b = make_float3(0.5, 0.5, 0.5);
+	float3 c = make_float3(4.0, 4.0, 4.0);
+	float3 d = make_float3(2.0f / 3.0f, 1.0f / 3.0f, 0.0 / 3.0f);
+	float3 color = palette((float)iteration / 1024.0f, a, b, c, d);
+	uint32_t value = (convert_channel(color.x) << 16) | (convert_channel(color.y) << 8) | convert_channel(color.z);
 
 	surf2Dwrite<uint32_t>(0xFF000000 | value, surface, x * sizeof(uint32_t), y);
 }
